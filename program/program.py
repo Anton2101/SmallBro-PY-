@@ -9,6 +9,7 @@ os.popen("python server.py")
 now = datetime.datetime.now()
 file = codecs.open('program.txt', 'a', "utf-8")
 file.write("\n\nProgram is running\n"+(time.strftime("%Y-%m-%d | %H:%M:%S")))
+prog_time = time.strftime("%M")
 mas = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x08, 0x09, 0x0C, 0x0D, 0x12, 0x13, 0x14, 0x1B, 0x20, 0x21, 0x22, 0x23, 0x24,
        0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,
        0x38, 0x39, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F, 0x50, 0x51,
@@ -62,13 +63,11 @@ def windowsearch():
     return active_window_name
 firstwindow = str(windowsearch())
 file.write("\n"+firstwindow)
-def signal(name):
-    file.write("Program is closing\n"+(time.strftime("%Y-%m-%d | %H:%M:%S")))
-win32api.SetConsoleCtrlHandler(signal)
 file.close()
 while __name__ == "__main__":
     file = codecs.open('program.txt', 'a', "utf-8")
     if(firstwindow != str(windowsearch())):
+        prog_time = time.strftime("%M")
         if(str(windowsearch()) == ''):
             file.write("\nWindows")
             firstwindow = str(windowsearch())
@@ -81,4 +80,15 @@ while __name__ == "__main__":
             first[hex(m)][1] = state_left
             if(state_left < 0):
                 file.write("\n"+first[hex(m)][0])
+                prog_time = time.strftime("%M")
+    min_=60-int(prog_time)
+    if (min_ <= 10):
+        if (int(time.strftime("%M"))+min_-10 == 0):
+            file.write("\nОсуществлён переход в IDLE режим "+time.strftime("%Y-%m-%d")+" в "+time.strftime("%H:%M"))
+            prog_time = 0
+
+    else:
+        if (int(time.strftime("%M"))-10 == int(prog_time)):
+            file.write("\nОсуществлён переход в IDLE режим "+time.strftime("%Y-%m-%d")+" в "+time.strftime("%H:%M"))
+            prog_time = 0
     file.close()
