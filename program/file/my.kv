@@ -1,0 +1,89 @@
+#:kivy 1.11.1
+
+<LoginScreen>:
+    input1: input1
+    error1: error1
+    input2: input2
+    error2: error2
+    GridLayout:
+        rows: 8
+        cols: 1
+        spacing: 0, 3
+        padding: 150, 120
+        Label:
+            font_size: 30
+            bold: True
+            text: "Добро пожаловать!"
+            size_hint: 1, None
+            size: 0, 60
+        Label:
+            size_hint: None, None
+            size: 80, 20
+            font_size: 15
+            text: "Почта"
+        TextInput:
+            id: input1
+            tab_width: 0
+            size_hint: 1, None
+            size: 0, 35
+            font_size: 20
+            background_color: 0.6, 0.85, 0.9176, 1
+            hint_text: 'Введите вашу почту'
+            multiline: False
+            foreground_color: 1, 1, 1, 1
+            on_focus: root.check_email()
+        Label:
+            id: error1
+            size_hint: 1, 0
+            font_size: 14
+            text: ''
+            color: 1, 0, 0, 1
+        Label:
+            size_hint: None, None
+            size: 80, 20
+            font_size: 15
+            text: "Пароль"
+        TextInput:
+            id: input2
+            tab_width: 0
+            size_hint: 1, None
+            size: 0, 35
+            font_size: 20
+            background_color: 0.6, 0.85, 0.9176, 1
+            foreground_color: 1, 1, 1, 1
+            hint_text: 'Введите ваш пароль'
+            multiline: False
+            password: True
+            password_mask: "*"
+            on_focus: root.check_pass()
+        Label:
+            id: error2
+            size_hint: 1, 0
+            font_size: 14
+            text: ''
+            color: 1, 0, 0, 1
+        Button:
+            text: "ВОЙТИ"
+            size_hint: 1, None
+            size: 0, 40
+            bold: True
+            on_press:
+                root.check_email()
+                root.check_pass()
+                if (error1.text == '') & (error2.text == ''): root.sign()
+                if (error1.text == "Такой почты не существует") | (error2.text == "Неправильный пароль"): root.sign()
+<ProgramScreen>:
+    on_enter:
+        root.start()
+    GridLayout:
+        rows: 2
+        cols: 1
+        spacing: 0, 3
+        padding: 150, 120
+        Label:
+            font_size: 40
+            bold: True
+            text: "Запись начата!"
+            size_hint: 1, None
+            size: 0, 60
+
